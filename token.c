@@ -96,6 +96,17 @@ int expect(struct token* src,int curr){
 	}
 }
 
-char* single_to_str(char* src, void* fpointer){
+char* single_to_str(char* src, int (*fpointer)(char)){
+	if(fpointer(*src)){
+		char* temp=malloc(sizeof(char)*1);
+		int i=0;
+		for(i=0;fpointer(*src);i++){
+			temp[i]=*src;
+			temp=realloc(temp,sizeof(char)*i+1);
+			src++;
+		}
+		temp[i]='\0';
+		return temp;
+	}	
 	return 0;
 }
