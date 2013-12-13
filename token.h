@@ -31,7 +31,7 @@ struct token{
 };
 
 struct token* tokenize(char*); //tokenizes string of inputs
-char* single_to_str(char*,int (*fpointer)(char)); //pass source and function pointer to isX() function, returns string
+char* single_to_str(char*,int (*fpointer)(int)); //pass source and function pointer to isX() function, returns string
 int accept(struct token*,int type); //"accepts" a token
 int expect(struct token*,int type); //"expects" a token
 struct token* tlast(struct token*); //returns the last token in the list

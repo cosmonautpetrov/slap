@@ -14,9 +14,19 @@ struct token* tokenize(char* src){
 		}
 		if(*src=='\0')
 			break;
-
-		//if alpha character found
+		
 		if(isalpha(*src)){
+			char* temp=single_to_str(src,&isalpha);
+			src+=strlen(temp);
+			head->tok_type=STRING;
+			head->data = (void*)strdup(temp);
+			free(temp);
+			head->next=malloc(sizeof(struct token));
+			head=head->next;
+			continue;	
+		}
+		//if alpha character found
+		/*if(isalpha(*src)){
 			char* temp=malloc(sizeof(char)*1);
 			int i;
 			//copy over string
@@ -35,6 +45,7 @@ struct token* tokenize(char* src){
 			head=head->next;
 			continue;
 		}
+		*/
 		//if digit character found (identical thing for above parser, merge in a single function (fpointer)
 		//check for misc. single-character tokens
 		switch(*src){
@@ -96,7 +107,7 @@ int expect(struct token* src,int curr){
 	}
 }
 
-char* single_to_str(char* src, int (*fpointer)(char)){
+char* single_to_str(char* src, int (*fpointer)(int)){
 	if(fpointer(*src)){
 		char* temp=malloc(sizeof(char)*1);
 		int i=0;
