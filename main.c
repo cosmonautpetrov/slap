@@ -72,5 +72,8 @@ int parse_rule(){
 	T_NEXT(curr);
 	expect(curr,COLON);
 	T_NEXT(curr);
+	
+	expect(curr,SEMICOLON);
+	T_NEXT(curr);
 	return 0;
 }

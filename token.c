@@ -1,6 +1,7 @@
 #include "token.h"
 
 //int tok_type, void* data, stroken token* next
+#define NEW_TOKEN(X) X->next=malloc(sizeof(struct token));X=X->next
 
 struct token* tokenize(char* src){
 	//Create a list and a head for it
@@ -15,14 +16,15 @@ struct token* tokenize(char* src){
 		if(*src=='\0')
 			break;
 		
-		if(isalpha(*src)){
+		if(isalpha(*src)){ //testing new parsing function
 			char* temp=single_to_str(src,&isalpha);
 			src+=strlen(temp);
 			head->tok_type=STRING;
 			head->data = (void*)strdup(temp);
 			free(temp);
-			head->next=malloc(sizeof(struct token));
-			head=head->next;
+			NEW_TOKEN(head);
+			//head->next=malloc(sizeof(struct token));
+			//head=head->next;
 			continue;	
 		}
 		//if alpha character found
