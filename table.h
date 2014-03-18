@@ -6,6 +6,7 @@
 #include "string.h"
 #include "token.h"
 
+//Structure for rule and ruleset
 struct rule{
 	struct token* tlist;
 	char* name;	

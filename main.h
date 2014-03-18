@@ -7,6 +7,7 @@
 #include "token.h"
 #include "table.h"
 /*
+ SLAP (student parser generator, what does the acronym stand for again) Language basic
  {
 	token : 'string'
 	token : 123

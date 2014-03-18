@@ -15,6 +15,7 @@
 	}
 */
 
+//Types of acceptable tokens
 #define TOK_NULL 0
 #define OPEN_BRACE 1
 #define CLOSE_BRACE 2
@@ -24,6 +25,7 @@
 #define COLON 6
 #define APOS 7
 
+//Token itself
 struct token{
 	int tok_type;
 	void* data;
@@ -36,5 +38,7 @@ int accept(struct token*,int type); //"accepts" a token
 int expect(struct token*,int type); //"expects" a token
 struct token* tlast(struct token*); //returns the last token in the list
 struct token* tname(struct token*,char*);//returns a list of all of type "name" in the list
+char* put_token(int type); //prints token type
+
 
 #endif
