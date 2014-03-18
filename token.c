@@ -3,6 +3,7 @@
 //int tok_type, void* data, stroken token* next
 #define NEW_TOKEN(X) X->next=malloc(sizeof(struct token));X=X->next
 
+//Tokenizes input stream into list of tokens
 struct token* tokenize(char* src){
 	//Create a list and a head for it
 	struct token* t_list = malloc(sizeof(struct token));
@@ -27,28 +28,6 @@ struct token* tokenize(char* src){
 			//head=head->next;
 			continue;	
 		}
-		//if alpha character found
-		/*if(isalpha(*src)){
-			char* temp=malloc(sizeof(char)*1);
-			int i;
-			//copy over string
-			for(i=0;isalpha(*src);i++){
-				temp[i]=*src;
-				temp=realloc(temp,sizeof(char)*i+1);
-				src++;
-			}
-			temp[i]='\0';
-			//setup STRING TOKEN
-			head->tok_type=STRING;
-			head->data = (void*)strdup(temp);
-			free(temp);
-			//next token
-			head->next = malloc(sizeof(struct token));
-			head=head->next;
-			continue;
-		}
-		*/
-		//if digit character found (identical thing for above parser, merge in a single function (fpointer)
 		//check for misc. single-character tokens
 		switch(*src){
 			case '{':
@@ -92,13 +71,22 @@ struct token* tokenize(char* src){
 	return t_list;	
 }
 
+//Function for accepting tokens in parser. Prints type/data
 int accept(struct token* src,int curr){
 	if(src->tok_type!=curr)
 		return 0;
-	else
-		return 1;	
+	else{
+		char* temp;
+		if(curr==STRING){
+			temp=(char*)src->data;
+			printf("ACCEPTED:%s,%s\n",put_token(curr),temp);
+		}
+		printf("ACCEPTED:%s\n",put_token(curr));
+		return 1;
+	}
 }
 
+//Function for expected tokens in parser. 
 int expect(struct token* src,int curr){
 	if(accept(src,curr))
 		return 1;
@@ -109,6 +97,8 @@ int expect(struct token* src,int curr){
 	}
 }
 
+//Function for checking type of string.
+//Essentially compressed replacement for isX()
 char* single_to_str(char* src, int (*fpointer)(int)){
 	if(fpointer(*src)){
 		char* temp=malloc(sizeof(char)*1);
@@ -122,4 +112,28 @@ char* single_to_str(char* src, int (*fpointer)(int)){
 		return temp;
 	}	
 	return 0;
+}
+
+//Lazy string return for types
+char* put_token(int type){
+	switch(type){
+		case TOK_NULL:
+			return "NULL";
+		case OPEN_BRACE:
+			return "OPEN_BRACE";
+		case CLOSE_BRACE:
+			return "CLOSE_BRACE";
+		case STRING:
+			return "STRING";
+		case L_OR:
+			return "LEFT_OR";
+		case SEMICOLON:
+			return "SEMICOLON";
+		case COLON:
+			return "COLON";
+		case APOS:
+			return "APOSTROPHE";
+		default:
+			return "UNKNOWN";
+	}
 }
