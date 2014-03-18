@@ -38,6 +38,7 @@ int main_block(){
 			expect(curr, CLOSE_BRACE);T_NEXT(curr);
 		}
 		expect(curr,OPEN_BRACE);
+		T_NEXT(curr);
 		if(accept(curr,STRING)){
 			do{
 				parse_rule();
@@ -52,6 +53,7 @@ int main_block(){
 }
 
 int lex_rule(){
+	printf("entering lex_rule()\n");
 	expect(curr,STRING);
 	T_NEXT(curr);
 	expect(curr,COLON);
@@ -61,6 +63,8 @@ int lex_rule(){
 		if(accept(curr,STRING)){
 			T_NEXT(curr);
 		}
+		expect(curr,APOS);
+		T_NEXT(curr);
 	}
 	expect(curr,SEMICOLON);
 	T_NEXT(curr);
@@ -68,12 +72,21 @@ int lex_rule(){
 }
 
 int parse_rule(){
+	printf("entering parse_rule()\n");
 	expect(curr, STRING);
 	T_NEXT(curr);
 	expect(curr,COLON);
 	T_NEXT(curr);
+
+	while(!accept(curr,SEMICOLON)){ //get all strings / ors
+		if(accept(curr,STRING)){
+			T_NEXT(curr);
+		}
+		if(accept(curr,L_OR)){
+			T_NEXT(curr);
+		}
+	}
 	
-	expect(curr,SEMICOLON);
 	T_NEXT(curr);
 	return 0;
 }
